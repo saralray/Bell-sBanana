@@ -59,6 +59,8 @@ pip install opencv-python numpy matplotlib
 
 img/img-in/
 
+name 1.jpg-n.jpg
+
 2.  Run:
 
 python main.py
