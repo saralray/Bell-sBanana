@@ -17,17 +17,17 @@ analyze banana ripeness based on color percentages.
 
 ## 📁 Project Structure
 
-project/ 
-│ ├── main.py 
-      ├── img/ │ 
-            ├── img-in/ │ 
-              │ ├── 1.jpg 
-              │ ├── 2.jpg 
-              │ │ └── ... 
-            └── img-out/ 
-              │ ├── 1_transparent.png 
-              │ ├── 2_transparent.png 
-              │ └── banana_color_plot.png
+project/  
+│ ├── main.py   
+|     ├── img/  
+|           ├── img-in/  
+|               ├── 1.jpg  
+|               ├── 2.jpg  
+|               │ └── ...  
+|           └── img-out  
+|               ├── 1_transparent.png  
+|               ├── 2_transparent.png  
+|               └── banana_color_plot.png  
 
 ------------------------------------------------------------------------
 
