@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import os
 import matplotlib.pyplot as plt
+import re
 
 # =========================
 # SETTINGS
@@ -14,15 +15,25 @@ TARGET_WIDTH = 600
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
 # =========================
+# Natural Sort (Fix 1,2,10 order)
+# =========================
+def natural_sort_key(s):
+    return [int(text) if text.isdigit() else text.lower()
+            for text in re.split(r'(\d+)', s)]
+
+
+# =========================
 # Resize With Padding
 # =========================
 def resize_with_padding(image, target_height, target_width):
     h, w = image.shape[:2]
     scale = min(target_width / w, target_height / h)
+
     new_w = int(w * scale)
     new_h = int(h * scale)
 
     resized = cv2.resize(image, (new_w, new_h), interpolation=cv2.INTER_AREA)
+
     canvas = np.zeros((target_height, target_width, 3), dtype=np.uint8)
 
     y_offset = (target_height - new_h) // 2
@@ -105,7 +116,6 @@ def analyze_banana_colors(image):
     if total == 0:
         return 0, 0, 0
 
-    # Normalize to 100%
     return (
         green_pixels / total * 100,
         yellow_pixels / total * 100,
@@ -122,7 +132,9 @@ yellow_list = []
 brown_list = []
 image_names = []
 
-for filename in sorted(os.listdir(INPUT_FOLDER)):
+files = sorted(os.listdir(INPUT_FOLDER), key=natural_sort_key)
+
+for filename in files:
 
     if not filename.lower().endswith((".jpg", ".jpeg", ".png")):
         continue
@@ -153,29 +165,30 @@ for filename in sorted(os.listdir(INPUT_FOLDER)):
 
 
 # =========================
-# PLOT LINE GRAPH
-# =========================
-# =========================
-# PLOT LINE GRAPH (Color Matched)
+# PLOT LINE GRAPH (Safe Save)
 # =========================
 
-# =========================
-# PLOT LINE GRAPH (Thicker)
-# =========================
+plt.figure(figsize=(12, 7))
 
-plt.figure(figsize=(10, 6))
-
-plt.plot(image_names, green_list,  color="#2E7D32", linewidth=4)
-plt.plot(image_names, yellow_list, color="#FFD600", linewidth=4)
-plt.plot(image_names, brown_list,  color="#6D4C41", linewidth=4)
+plt.plot(image_names, green_list,  color="#2E7D32", linewidth=5)
+plt.plot(image_names, yellow_list, color="#FFD600", linewidth=5)
+plt.plot(image_names, brown_list,  color="#6D4C41", linewidth=5)
 
 plt.xlabel("Image")
 plt.ylabel("Percentage (%)")
 plt.title("Banana Ripeness Color Analysis")
-
 plt.legend(["Green", "Yellow", "Brown"])
 plt.xticks(rotation=45)
 plt.grid(True)
 
 plt.tight_layout()
-plt.show()
+
+# Absolute safe path
+plot_path = os.path.abspath(os.path.join(OUTPUT_FOLDER, "banana_color_plot.png"))
+
+# Save BEFORE show
+plt.savefig(plot_path, dpi=300, bbox_inches="tight")
+
+print("Saved to:", plot_path)
+
+plt.close()   # Close figure (important)
