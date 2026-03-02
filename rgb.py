@@ -2,7 +2,7 @@ import cv2
 import matplotlib.pyplot as plt
 
 # Load image
-img = cv2.imread("img/1.jpg")
+img = cv2.imread("img/img-out/1_transparent.png")
 
 # Convert BGR → RGB (IMPORTANT!)
 img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
