@@ -20,10 +20,10 @@ analyze banana ripeness based on color percentages.
 project/  
 │ ├── main.py   
 |     ├── img/  
-|           ├── img-in/  
+|           ├── img-in  
 |               ├── 1.jpg  
 |               ├── 2.jpg  
-|               │ └── ...  
+|               └── ...  
 |           └── img-out  
 |               ├── 1_transparent.png  
 |               ├── 2_transparent.png  
